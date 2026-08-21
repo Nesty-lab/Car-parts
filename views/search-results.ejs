@@ -1,0 +1,32 @@
+<%- include('partials/header', { title: 'Search Results - AutoParts Ghana' }) %>
+
+<section class="container section">
+  <h1>Search Results<% if (q) { %> for "<%= q %>"<% } %></h1>
+
+  <% if (!q) { %>
+    <p class="muted">Enter a search term above to find spare parts.</p>
+  <% } else if (results.length === 0) { %>
+    <p class="muted">No spare parts matched your search. Try a different term.</p>
+  <% } else { %>
+    <div class="product-grid">
+      <% results.forEach(function(p) { %>
+        <a href="/products/<%= p.id %>" class="product-card">
+          <div class="product-image">
+            <% if (p.image) { %>
+              <img src="<%= p.image %>" alt="<%= p.name %>">
+            <% } else { %>
+              <div class="no-image">No Image</div>
+            <% } %>
+          </div>
+          <div class="product-info">
+            <h3><%= p.name %></h3>
+            <p class="muted"><%= p.brand_name || '' %> <%= p.model_name ? '- ' + p.model_name : '' %></p>
+            <p class="price">GHS <%= p.price.toFixed(2) %></p>
+          </div>
+        </a>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
+
+<%- include('partials/footer') %>

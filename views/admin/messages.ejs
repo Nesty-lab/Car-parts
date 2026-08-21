@@ -1,0 +1,33 @@
+<%- include('../partials/admin-header', { title: 'Messages - Admin' }) %>
+
+<h1>Customer Messages</h1>
+
+<% if (messages.length === 0) { %>
+  <p class="muted">No messages yet.</p>
+<% } else { %>
+  <div class="message-list">
+    <% messages.forEach(function(m) { %>
+      <div class="message-card <%= m.is_read ? '' : 'unread' %>">
+        <div class="message-header">
+          <strong><%= m.name %></strong>
+          <span class="muted"><%= m.email %></span>
+          <span class="muted"><%= new Date(m.created_at).toLocaleString() %></span>
+          <% if (!m.is_read) { %><span class="badge">New</span><% } %>
+        </div>
+        <p><%= m.message %></p>
+        <div class="message-actions">
+          <% if (!m.is_read) { %>
+            <form action="/admin/messages/<%= m.id %>/read" method="POST">
+              <button type="submit" class="btn btn-small">Mark as Read</button>
+            </form>
+          <% } %>
+          <form action="/admin/messages/<%= m.id %>/delete" method="POST" onsubmit="return confirm('Delete this message?');">
+            <button type="submit" class="btn btn-small btn-danger">Delete</button>
+          </form>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+<% } %>
+
+<%- include('../partials/admin-footer') %>

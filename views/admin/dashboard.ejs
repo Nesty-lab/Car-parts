@@ -1,0 +1,61 @@
+<%- include('../partials/admin-header', { title: 'Dashboard - Admin' }) %>
+
+<h1>Dashboard</h1>
+
+<div class="stat-grid">
+  <div class="stat-card">
+    <span class="stat-value"><%= stats.products %></span>
+    <span class="stat-label">Products</span>
+  </div>
+  <div class="stat-card">
+    <span class="stat-value"><%= stats.orders %></span>
+    <span class="stat-label">Total Orders</span>
+  </div>
+  <div class="stat-card highlight">
+    <span class="stat-value"><%= stats.pendingOrders %></span>
+    <span class="stat-label">Pending Orders</span>
+  </div>
+  <div class="stat-card">
+    <span class="stat-value"><%= stats.messages %></span>
+    <span class="stat-label">Messages</span>
+  </div>
+  <div class="stat-card highlight">
+    <span class="stat-value"><%= stats.unreadMessages %></span>
+    <span class="stat-label">Unread Messages</span>
+  </div>
+</div>
+
+<h2>Recent Orders</h2>
+<% if (recentOrders.length === 0) { %>
+  <p class="muted">No orders yet.</p>
+<% } else { %>
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Customer</th>
+        <th>Product</th>
+        <th>Payment</th>
+        <th>Branch</th>
+        <th>Status</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% recentOrders.forEach(function(o) { %>
+        <tr>
+          <td>#<%= o.id %></td>
+          <td><%= o.customer_name %></td>
+          <td><%= o.product_name || '—' %></td>
+          <td><%= o.payment_method %></td>
+          <td><%= o.branch_name || '—' %></td>
+          <td><span class="badge"><%= o.status %></span></td>
+          <td><%= new Date(o.created_at).toLocaleString() %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+  <a href="/admin/orders" class="btn btn-small">View All Orders</a>
+<% } %>
+
+<%- include('../partials/admin-footer') %>
