@@ -1,0 +1,40 @@
+<%- include('partials/header', { title: 'Contact Us - AutoParts Ghana' }) %>
+
+<section class="container section narrow">
+  <h1>Contact Us</h1>
+
+  <div class="contact-details">
+    <p><strong>Email:</strong> <%= company.email %></p>
+    <p><strong>Phone:</strong> <%= company.phone %></p>
+    <p><strong>Address:</strong> <%= company.address %></p>
+  </div>
+
+  <% if (sent) { %>
+    <div class="alert alert-success">
+      Thank you — your message has been sent. We'll get back to you soon.
+    </div>
+  <% } %>
+
+  <% if (errors && errors.length) { %>
+    <div class="alert alert-error">
+      <ul>
+        <% errors.forEach(function(e) { %><li><%= e %></li><% }) %>
+      </ul>
+    </div>
+  <% } %>
+
+  <form action="/contact" method="POST" class="form">
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="message">Message</label>
+    <textarea id="message" name="message" rows="5" required></textarea>
+
+    <button type="submit" class="btn">Send Message</button>
+  </form>
+</section>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,58 @@
+<%- include('partials/header', { title: 'AutoParts Ghana - Quality Car Spare Parts' }) %>
+
+<section class="hero">
+  <div class="container">
+    <h1>Genuine Car Spare Parts, Every Make &amp; Model</h1>
+    <p>Browse our full range of spare parts, or search for exactly what you need.</p>
+    <form action="/search" method="GET" class="hero-search">
+      <input type="text" name="q" placeholder="Search for a spare part (e.g. brake pads, headlight...)">
+      <button type="submit">Search</button>
+    </form>
+  </div>
+</section>
+
+<section class="container section">
+  <h2>Shop by Brand</h2>
+  <div class="brand-grid">
+    <% brands.forEach(function(brand) { %>
+      <div class="brand-card">
+        <h3><%= brand.name %></h3>
+        <p class="muted"><%= brand.model_count %> model<%= brand.model_count === 1 ? '' : 's' %></p>
+        <ul class="model-list">
+          <% (modelsByBrand[brand.id] || []).forEach(function(m) { %>
+            <li><%= m.name %></li>
+          <% }) %>
+        </ul>
+        <a href="/products?brand=<%= brand.id %>" class="btn btn-small">View Parts</a>
+      </div>
+    <% }) %>
+  </div>
+</section>
+
+<section class="container section">
+  <h2>Featured Products</h2>
+  <% if (featured.length === 0) { %>
+    <p class="muted">No featured products yet — check back soon.</p>
+  <% } else { %>
+    <div class="product-grid">
+      <% featured.forEach(function(p) { %>
+        <a href="/products/<%= p.id %>" class="product-card">
+          <div class="product-image">
+            <% if (p.image) { %>
+              <img src="<%= p.image %>" alt="<%= p.name %>">
+            <% } else { %>
+              <div class="no-image">No Image</div>
+            <% } %>
+          </div>
+          <div class="product-info">
+            <h3><%= p.name %></h3>
+            <p class="muted"><%= p.category || '' %></p>
+            <p class="price">GHS <%= p.price.toFixed(2) %></p>
+          </div>
+        </a>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
+
+<%- include('partials/footer') %>
