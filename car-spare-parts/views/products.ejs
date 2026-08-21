@@ -1,0 +1,44 @@
+<%- include('partials/header', { title: 'Products - AutoParts Ghana' }) %>
+
+<section class="container section">
+  <div class="products-header">
+    <div>
+      <h1>All Spare Parts</h1>
+      <p class="muted"><%= products.length %> product<%= products.length === 1 ? '' : 's' %> available across <%= modelCount %> model<%= modelCount === 1 ? '' : 's' %>.</p>
+    </div>
+    <form class="brand-filter" method="GET" action="/products">
+      <label for="brand">Filter by brand:</label>
+      <select name="brand" id="brand" onchange="this.form.submit()">
+        <option value="">All Brands</option>
+        <% brands.forEach(function(b) { %>
+          <option value="<%= b.id %>" <%= activeBrand === b.id ? 'selected' : '' %>><%= b.name %></option>
+        <% }) %>
+      </select>
+    </form>
+  </div>
+
+  <% if (products.length === 0) { %>
+    <p class="muted">No products found.</p>
+  <% } else { %>
+    <div class="product-grid">
+      <% products.forEach(function(p) { %>
+        <a href="/products/<%= p.id %>" class="product-card">
+          <div class="product-image">
+            <% if (p.image) { %>
+              <img src="<%= p.image %>" alt="<%= p.name %>">
+            <% } else { %>
+              <div class="no-image">No Image</div>
+            <% } %>
+          </div>
+          <div class="product-info">
+            <h3><%= p.name %></h3>
+            <p class="muted"><%= p.brand_name || '' %> <%= p.model_name ? '- ' + p.model_name : '' %></p>
+            <p class="price">GHS <%= p.price.toFixed(2) %></p>
+          </div>
+        </a>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
+
+<%- include('partials/footer') %>
